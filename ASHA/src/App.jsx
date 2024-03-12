@@ -10,7 +10,7 @@ import { TaskFormPage } from "./pages/TaskFormPage";
 import { LoginPage } from "./pages/LoginPage";
 import { TasksPage } from "./pages/TasksPage";
 import { TaskProvider } from "./context/tasksContext";
-import {AdminPage} from "./pages/AdminPage"; 
+import AdminPage from "./pages/AdminPage"; 
 function App() {
   return (
     <AuthProvider>
