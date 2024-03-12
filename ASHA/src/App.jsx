@@ -10,8 +10,7 @@ import { TaskFormPage } from "./pages/TaskFormPage";
 import { LoginPage } from "./pages/LoginPage";
 import { TasksPage } from "./pages/TasksPage";
 import { TaskProvider } from "./context/tasksContext";
-import {AdminPage} from "./pages/AdminPage"; // Importa el componente sin llaves ya que no es un export por defecto
-
+import {AdminPage} from "./pages/AdminPage"; 
 function App() {
   return (
     <AuthProvider>
@@ -24,11 +23,11 @@ function App() {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
               <Route element={<ProtectedRoute />}>
-                <Route path="/tasks" element={<TasksPage />} />
-                <Route path="/add-task" element={<TaskFormPage />} />
+           {/*    <Route path="/tasks" element={<TasksPage />} /> */}
+              <Route path="/add-task" element={<TaskFormPage />} />
                 <Route path="/tasks/:id" element={<TaskFormPage />} />
                 <Route path="/profile" element={<h1>Profile</h1>} />
-                <Route path="/admin" element={<AdminPage />} />
+                <Route path="/tasks" element={<AdminPage />} />
               </Route>
             </Routes>
           </main>
