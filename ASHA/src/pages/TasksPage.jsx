@@ -3,7 +3,7 @@ import { useTasks } from "../context/tasksContext";
 import { TaskCard } from "../components/tasks/TaskCard";
 import { ImFileEmpty, ImDroplet } from "react-icons/im";
 import ApexChart from '../components/Chart';
-import ApexPieChart from '../components/pieChart';
+import ApexPieChart from '../components/table';
 
 
 export function TasksPage() {

@@ -1,3 +1,5 @@
+// auth.routes.js
+
 import { Router } from "express";
 import {
     login,
@@ -8,7 +10,6 @@ import {
 import { validateSchema } from "../middlewares/validator.middleware.js";
 import { loginSchema, registerSchema } from "../schemas/auth.schema.js";
 
-
 const router = Router();
 
 router.post("/register", validateSchema(registerSchema), register);
@@ -17,4 +18,3 @@ router.get("/verifyToken", verifyToken);
 router.post("/logout", verifyToken, logout);
 
 export default router;
-

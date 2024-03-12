@@ -1,5 +1,4 @@
-import { useEffect } from "react";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import { loginRequest, registerRequest, verifyTokenRequest } from "../api/auth";
 import Cookies from "js-cookie";
 
@@ -11,22 +10,20 @@ export const useAuth = () => {
   return context;
 };
 
+export const useUser = () => useContext(AuthContext).getUser;
+
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // clear errors after 5 seconds
-  useEffect(() => {
-    if (errors.length > 0) {
-      const timer = setTimeout(() => {
-        setErrors([]);
-      }, 5000);
-      return () => clearTimeout(timer);
-    }
-  }, [errors]);
+  // Función para obtener el objeto de usuario
+  const getUser = () => {
+    return user;
+  };
 
+  // Función para realizar el registro
   const signup = async (user) => {
     try {
       const res = await registerRequest(user);
@@ -40,6 +37,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // Función para iniciar sesión
   const signin = async (user) => {
     try {
       const res = await loginRequest(user);
@@ -47,16 +45,17 @@ export const AuthProvider = ({ children }) => {
       setIsAuthenticated(true);
     } catch (error) {
       console.log(error);
-      // setErrors(error.response.data.message);
     }
   };
 
+  // Función para cerrar sesión
   const logout = () => {
     Cookies.remove("token");
     setUser(null);
     setIsAuthenticated(false);
   };
 
+  // Verificar el estado de la sesión al cargar la página
   useEffect(() => {
     const checkLogin = async () => {
       const cookies = Cookies.get();
@@ -68,7 +67,6 @@ export const AuthProvider = ({ children }) => {
 
       try {
         const res = await verifyTokenRequest(cookies.token);
-        console.log(res);
         if (!res.data) return setIsAuthenticated(false);
         setIsAuthenticated(true);
         setUser(res.data);
@@ -81,6 +79,7 @@ export const AuthProvider = ({ children }) => {
     checkLogin();
   }, []);
 
+  // Proveer el contexto de autenticación a los componentes hijos
   return (
     <AuthContext.Provider
       value={{
@@ -91,6 +90,7 @@ export const AuthProvider = ({ children }) => {
         isAuthenticated,
         errors,
         loading,
+        getUser, // Incluir la función getUser en el contexto
       }}
     >
       {children}
