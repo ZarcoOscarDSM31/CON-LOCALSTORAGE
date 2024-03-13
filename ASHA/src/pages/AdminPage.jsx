@@ -1,23 +1,25 @@
-import React, { useEffect } from "react";
-import { useTasks } from "../context/tasksContext";
-import FormPlants from "../components/formPlants"; // Corregido: El nombre del componente importado debe coincidir con el nombre del archivo
-import WeatherComponent from "../api/weatherComponent"; // Corregido: El nombre del componente importado debe coincidir con el nombre del archivo
+import React, { useState, useEffect } from "react";
+import FormPlants from "../components/formPlants";
+import WeatherComponent from "../api/weatherComponent";
+import SensorData from "../components/sensorData";
 
-function AdminPage() {
-  const { getTasks } = useTasks();
-
-  useEffect(() => {
-    getTasks();
-  }, [getTasks]);
-
+function Dashboard() {
   return (
     <div>
-      <FormPlants />
-      <div>
-        <WeatherComponent />
-      </div>
+    <div className="flex flex-wrap justify-between">
+  <div className="w-full md:w-5/12 p-4"> 
+    <WeatherComponent />
+  </div>
+  <div className="w-full md:w-5/12 p-4"> 
+    <SensorData />
+  </div>
+</div>
+<div className="p-4 w-full md:w-1/2">
+  <FormPlants />
+</div>
+
     </div>
   );
 }
 
-export default AdminPage;
+export default Dashboard;

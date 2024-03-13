@@ -1,18 +1,14 @@
-import  { useState, useEffect } from 'react';
+// WeatherComponent.jsx
+import React, { useState, useEffect } from 'react';
 
 function WeatherComponent() {
-  const [location, setLocation] = useState('');
   const [weatherData, setWeatherData] = useState(null);
-  const apiKey = 'fc2ac51668f9a6669c5870bdcc61e018'; // Recuerda reemplazar 'YOUR_API_KEY' con tu propia clave API de OpenWeatherMap
-
-  const handleChange = (event) => {
-    setLocation(event.target.value);
-  };
 
   useEffect(() => {
-    async function fetchWeatherData() {
+    async function fetchWeatherData(latitude, longitude) {
       try {
-        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${apiKey}&units=metric`);
+        const apiKey = 'fc2ac51668f9a6669c5870bdcc61e018';
+        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -23,27 +19,39 @@ function WeatherComponent() {
       }
     }
 
-    if (location.trim() !== '') {
-      fetchWeatherData();
+    function getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+          const latitude = position.coords.latitude;
+          const longitude = position.coords.longitude;
+          fetchWeatherData(latitude, longitude);
+        }, (error) => {
+          console.error('Error getting geolocation:', error);
+        });
+      } else {
+        console.error('Geolocation is not supported by this browser.');
+      }
     }
-  }, [location, apiKey]);
 
-  if (!weatherData) {
-    return (
-      <div>
-        <input type="text" value={location} onChange={handleChange} placeholder="Enter location" />
-        <div>Loading...</div>
-      </div>
-    );
-  }
+    getLocation();
+  }, []);
 
   return (
-    <div>
-      <input type="text" value={location} onChange={handleChange} placeholder="Enter location" />
-      <h2>Clima en {weatherData.name}</h2>
-      <p>Temperatuae: {weatherData.main.temp}°C</p>
-      <p>Clima: {weatherData.weather[0].description}</p>
-    </div>
+    <div className="container justify-content:flex">
+    <div className=" top-0 left-0 p-4">
+      <div className="shadow-2xl w-1/2 p-4">
+        {weatherData ? (
+          <div className="text-center">
+            <h2 className=" text-black text-xl font-semibold mb-2">Clima en {weatherData.name}</h2>
+            <p className=''>Temperatura: {weatherData.main.temp}°C</p>
+            <p>Clima: {weatherData.weather[0].description}</p>
+          </div>
+        ) : (
+          <div>Loading...</div>
+        )}
+      </div>
+      </div>
+      </div>
   );
 }
 
