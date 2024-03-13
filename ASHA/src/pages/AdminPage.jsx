@@ -1,23 +1,27 @@
-import React, { useState, useEffect } from "react";
-import FormPlants from "../components/formPlants";
+import React from "react";
+import FormPlants from "../components/FormPlants";
 import WeatherComponent from "../api/weatherComponent";
 import SensorData from "../components/sensorData";
+import WeatherChart from "../components/Chart";
 
 function Dashboard() {
   return (
-    <div>
-    <div className="flex flex-wrap justify-between">
-  <div className="w-full md:w-5/12 p-4"> 
-    <WeatherComponent />
-  </div>
-  <div className="w-full md:w-5/12 p-4"> 
-    <SensorData />
-  </div>
-</div>
-<div className="p-4 w-full md:w-1/2">
-  <FormPlants />
-</div>
+    <div className="container mx-auto p-4">
+      <div className="md:flex md:flex-wrap md:justify-center">
+        <div className="w-full md:w-1/2 p-2">
+          <WeatherComponent />
+        </div>
+        <div className="w-full md:w-1/2 p-2">
+          <SensorData />
+        </div>
+      </div>
+      <div className="mx-auto static">
+        <WeatherChart />
+      </div>
 
+      <div className="md:flex md:justify-center mt-4">
+        <FormPlants />
+      </div>
     </div>
   );
 }
