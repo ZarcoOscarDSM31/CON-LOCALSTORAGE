@@ -4,6 +4,7 @@ class ApexChart extends Component {
   constructor(props) {
     super(props);
 
+    // Estado inicial del componente
     this.state = {
       data: [],
       filter: 'all',
@@ -12,10 +13,12 @@ class ApexChart extends Component {
     };
   }
 
+  // Método para cargar los datos cuando el componente está montado
   componentDidMount() {
     this.fetchData();
   }
 
+  // Método para obtener los datos de la API
   fetchData = () => {
     fetch('http://localhost:3000/historial')
       .then(response => response.json())
@@ -25,6 +28,7 @@ class ApexChart extends Component {
       .catch(error => console.error('Error al obtener los datos de la API:', error));
   };
 
+  // Manejadores de eventos para los cambios en los filtros
   handleFilterChange = event => {
     this.setState({ filter: event.target.value });
   };
@@ -37,9 +41,11 @@ class ApexChart extends Component {
     this.setState({ toDate: event.target.value });
   };
 
+  // Método para renderizar la tabla de datos
   renderTable = () => {
     const { data, filter, fromDate, toDate } = this.state;
 
+    // Aplicar filtros según los valores seleccionados
     let filteredData = filter === 'all' ? data : data.filter(item => item.id_sensor.toString() === filter);
 
     if (fromDate && toDate) {
@@ -51,8 +57,10 @@ class ApexChart extends Component {
       });
     }
 
+    // Renderizar la tabla con los datos filtrados
     return (
       <table className="min-w-full table-auto text-black border-collapse border border-black">
+        {/* Encabezados de la tabla */}
         <thead className="bg-gray-50">
           <tr>
             <th className="text-left border border-black">Fecha y Hora</th>
@@ -60,6 +68,7 @@ class ApexChart extends Component {
             <th className="text-right border border-black">Unidades</th>
           </tr>
         </thead>
+        {/* Cuerpo de la tabla */}
         <tbody className="bg-gray-100">
           {filteredData.map(item => (
             <tr key={item._id}>
@@ -73,40 +82,29 @@ class ApexChart extends Component {
     );
   };
 
+  // Método para renderizar los filtros
   renderFilters = () => {
     return (
       <div className="flex flex-wrap items-start justify-center mb-4">
-         <h1 className="text-2xl font-bold mb-2 sm:mb-0">Filtros</h1>
+        <h1 className="text-2xl font-bold mb-2 sm:mb-0">Filtros</h1>
+        {/* Selector de sensor */}
         <div className="flex-none w-full sm:w-auto sm:flex-grow sm:flex sm:items-center sm:justify-start sm:mb-4">
-         
+          <label htmlFor="sensor" className="block text-black">Sensor:</label>
+          <select id="sensor" className="form-select" onChange={this.handleFilterChange}>
+            <option value="all">Todos los Sensores</option>
+            <option value="1">Temperatura</option>
+            <option value="2">Humedad</option>
+          </select>
         </div>
+        {/* Campo de fecha de inicio */}
         <div className="flex-none w-full sm:w-auto sm:flex-grow sm:flex sm:items-center sm:justify-start sm:mb-4">
-          <div className="mr-3 mb-3 sm:mb-0">
-            <label htmlFor="sensor" className="block text-black">Sensor:</label>
-          </div>
-          <div className="mb-3 sm:mb-0">
-            <select id="sensor" className="form-select" onChange={this.handleFilterChange}>
-              <option value="all">Todos los Sensores</option>
-              <option value="1">Temperatura</option>
-              <option value="2">Humedad</option>
-            </select>
-          </div>
+          <label htmlFor="fromDate" className="block text-black">Desde:</label>
+          <input id="fromDate" type="date" className="form-input" onChange={this.handleFromDateChange} />
         </div>
+        {/* Campo de fecha de fin */}
         <div className="flex-none w-full sm:w-auto sm:flex-grow sm:flex sm:items-center sm:justify-start sm:mb-4">
-          <div className="mr-3 mb-3 sm:mb-0">
-            <label htmlFor="fromDate" className="block text-black">Desde:</label>
-          </div>
-          <div className="mb-3 sm:mb-0">
-            <input id="fromDate" type="date" className="form-input" onChange={this.handleFromDateChange} />
-          </div>
-        </div>
-        <div className="flex-none w-full sm:w-auto sm:flex-grow sm:flex sm:items-center sm:justify-start sm:mb-4">
-          <div className="mr-3 mb-3 sm:mb-0">
-            <label htmlFor="toDate" className="block text-black">Hasta:</label>
-          </div>
-          <div className="mb-3 sm:mb-0">
-            <input id="toDate" type="date" className="form-input" onChange={this.handleToDateChange} />
-          </div>
+          <label htmlFor="toDate" className="block text-black">Hasta:</label>
+          <input id="toDate" type="date" className="form-input" onChange={this.handleToDateChange} />
         </div>
       </div>
     );
@@ -116,7 +114,9 @@ class ApexChart extends Component {
     return (
       <div className="flex flex-col items-center">
         <div className="w-full sm:w-auto md:w-full lg:w-3/4 xl:w-1/2">
+          {/* Renderizar los filtros */}
           <div className="mb-4">{this.renderFilters()}</div>
+          {/* Renderizar la tabla de datos */}
           <div className="overflow-x-auto">{this.renderTable()}</div>
         </div>
       </div>

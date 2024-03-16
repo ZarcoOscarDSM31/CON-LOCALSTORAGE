@@ -1,8 +1,10 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@tailwind base; /* Importa los estilos base de Tailwind CSS */
+
+@tailwind components; /* Importa los estilos de los componentes de Tailwind CSS */
+
+@tailwind utilities; /* Importa los estilos de utilidades de Tailwind CSS */
 
 body {
-    background: linear-gradient(to top, #2e8b3e, #9c9c9c);
-    color: #d8d6d6;
+    background: linear-gradient(to top, #2e8b3e, #9c9c9c); /* Establece un fondo degradado */
+    color: #d8d6d6; /* Establece el color de texto */
 }

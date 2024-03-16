@@ -3,16 +3,20 @@ import axios from 'axios';
 import ApexCharts from 'react-apexcharts';
 
 const WeatherChart = () => {
+  // Estado para almacenar los datos meteorológicos
   const [weatherData, setWeatherData] = useState(null);
 
+  // Función para obtener los datos meteorológicos del usuario actual
   useEffect(() => {
     const fetchData = async () => {
       try {
+        // Obtener la ubicación actual del usuario
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(async position => {
             const { latitude, longitude } = position.coords;
             const apiKey = 'fc2ac51668f9a6669c5870bdcc61e018';
             const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
+            // Obtener los datos meteorológicos de la API
             const response = await axios.get(apiUrl);
             setWeatherData(response.data);
           });
@@ -27,6 +31,7 @@ const WeatherChart = () => {
     fetchData();
   }, []);
 
+  // Función para analizar los datos meteorológicos y prepararlos para el gráfico
   const parseWeatherDataForChart = () => {
     if (!weatherData) return null;
 
@@ -56,6 +61,7 @@ const WeatherChart = () => {
 
   return (
     <div>
+      {/* Renderizar el gráfico si hay datos meteorológicos disponibles */}
       {weatherData && (
         <ApexCharts
           options={parseWeatherDataForChart().options}

@@ -1,7 +1,6 @@
-const express = require("express");
-const MongoClient = require("mongodb").MongoClient;
-
-const app = express();
+const express = require("express"); // Importa el framework Express
+const MongoClient = require("mongodb").MongoClient; // Importa el cliente MongoDB
+const app = express(); // Crea una instancia de la aplicación Express
 
 // URL de conexión a la base de datos MongoDB
 const mongoURI = "mongodb://localhost:27017";
@@ -14,9 +13,9 @@ app.use((req, res, next) => {
   res.header("Access-Control-Allow-Headers", "Content-Type, Authorization"); // Permitir encabezados personalizados
   next();
 });
-app.use(express.json());
+app.use(express.json()); // Habilita el análisis del cuerpo de la solicitud en formato JSON
 
-
+// Ruta para registrar una nueva planta
 app.post('/plantas', async (req, res) => {
   console.log("Cuerpo de la solicitud:", req.body);
   try {
@@ -55,8 +54,6 @@ app.post('/plantas', async (req, res) => {
     res.status(500).json({ error: "Error al registrar nueva planta" });
   }
 });
-
-
 
 // Ruta para obtener los datos de la colección historial
 app.get("/historial", async (req, res) => {

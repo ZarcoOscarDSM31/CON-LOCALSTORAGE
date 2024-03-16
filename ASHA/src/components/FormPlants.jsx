@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Card, Button, Input } from "./ui";
 
 function FormPlants() {
+  // Estado para almacenar los datos del formulario
   const [formData, setFormData] = useState({
     nombre: '',
     tipo: '',
@@ -16,14 +17,17 @@ function FormPlants() {
     phIdeal: ''
   });
 
+  // Función para manejar el cambio en los campos del formulario
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
+  // Función para manejar el envío del formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      // Enviar los datos del formulario al servidor
       const response = await fetch('http://localhost:3000/plantas', {
         method: 'POST',
         headers: {
@@ -46,7 +50,9 @@ function FormPlants() {
       <div className="w-full max-w-lg">
         <Card>
           <h1 className="text-3xl font-bold text-center mb-4">Registro de nuevas Plantas</h1>
+          {/* Formulario de registro de plantas */}
           <form className="space-y-4" onSubmit={handleSubmit}>
+            {/* Campos de entrada para cada dato de la planta */}
             <Input name="nombre" placeholder="Ingrese nombre" onChange={handleChange} />
             <Input name="tipo" placeholder="Ingrese Tipo de planta" onChange={handleChange} />
             <Input name="temMax" placeholder="Ingrese Temperatura Maxima" onChange={handleChange} />
@@ -58,6 +64,7 @@ function FormPlants() {
             <Input name="tempIdeal" placeholder="Ingrese Temperatura Ideal" onChange={handleChange} />
             <Input name="horasLuz" placeholder="Ingrese Horas Luz" onChange={handleChange} />
             <Input name="phIdeal" placeholder="Ingrese Ph Ideal" onChange={handleChange} />
+            {/* Botón para enviar el formulario */}
             <Button type="submit">Registrar</Button>
           </form>
         </Card>
