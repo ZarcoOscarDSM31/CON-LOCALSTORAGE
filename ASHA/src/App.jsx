@@ -5,7 +5,6 @@ import { AuthProvider } from "./context/authContext";
 import { ProtectedRoute } from "./routes";
 import HomePage from "./pages/HomePage";
 import RegisterPage from "./pages/RegisterPage";
-import { TaskFormPage } from "./pages/TaskFormPage";
 import { LoginPage } from "./pages/LoginPage";
 import { TasksPage } from "./pages/TasksPage";
 import { TaskProvider } from "./context/tasksContext";
@@ -35,10 +34,6 @@ function App() {
               <Route element={<ProtectedRoute />}>
                 {/* Página de tareas (se comenta para ser reemplazada) */}
                 <Route path="/tasks" element={<TasksPage />} />
-                {/* Página de formulario para agregar tarea */}
-                <Route path="/add-task" element={<TaskFormPage />} />
-                {/* Página de formulario para editar tarea */}
-                <Route path="/tasks/:id" element={<TaskFormPage />} />
                 {/* Página de perfil del usuario */}
                 <Route path="/profile" element={<h1>Profile</h1>} />
                 {/* Página de administración de tareas */}

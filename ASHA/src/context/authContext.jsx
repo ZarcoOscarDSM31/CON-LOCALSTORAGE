@@ -54,11 +54,13 @@ export const AuthProvider = ({ children }) => {
   
 
   // Función para cerrar sesión
-  const logout = () => {
-    Cookies.remove("token");
-    setUser(null);
-    setIsAuthenticated(false);
-  };
+const logout = () => {
+  localStorage.removeItem("token"); // Elimina el token del localStorage
+  Cookies.remove("token"); // Elimina el token de las cookies
+  setUser(null);
+  setIsAuthenticated(false);
+};
+
 
   // Verificar el estado de la sesión al cargar la página
   useEffect(() => {
