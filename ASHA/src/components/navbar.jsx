@@ -2,18 +2,21 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/authContext";
 import { ButtonLink } from "./ui/ButtonLink";
+import ThemeToggle from "./ui/ThemeToggle"; // Importar el componente ThemeToggle
 
 export function Navbar() {
   // Obtener el estado de autenticación y la función de cierre de sesión del contexto de autenticación
   const { isAuthenticated, logout, user } = useAuth();
 
   return (
-    <nav className="bg-green-400 my-3 flex justify-between py-5 px-10 rounded-lg">
+    <nav className=" my-3 flex justify-between py-5 px-10 rounded-lg" style={{ backgroundColor: "#285E57" }}>
       {/* Enlace al inicio o a las tareas dependiendo del estado de autenticación */}
-      <h1 className="text-2xl font-bold">
+      <h1 className="text-2xl font-bold text-white">
         <Link to={isAuthenticated ? "/tasks" : "/"}>ASHA</Link>
       </h1>
+      
       <ul className="flex gap-x-2">
+        <ThemeToggle />
         {isAuthenticated ? (
           // Mostrar el nombre de usuario y el botón de cierre de sesión si el usuario está autenticado
           <>
@@ -37,6 +40,8 @@ export function Navbar() {
             </li>
           </>
         )}
+        {/* Integra el componente ThemeToggle aquí */}
+        
       </ul>
     </nav>
   );

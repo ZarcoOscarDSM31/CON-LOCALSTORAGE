@@ -2,10 +2,11 @@
 import { useAuth } from "../context/authContext";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { useEffect } from "react";
+import React, { useState, useEffect } from 'react'; // Agregamos useState
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Card, Message, Button, Input, Label } from "../components/ui";
 import { loginSchema } from "../schemas/auth"; // Importa el esquema de validación para el inicio de sesión
+
 
 export function LoginPage() {
   // Inicialización de variables y funciones del formulario
@@ -18,6 +19,7 @@ export function LoginPage() {
   });
   const { signin, errors: loginErrors, isAuthenticated, getUser } = useAuth(); // Obtiene funciones y datos de autenticación
   const navigate = useNavigate(); // Función de navegación
+
 
   // Función que maneja el envío del formulario
   const onSubmit = (data) => signin(data);
@@ -39,7 +41,7 @@ export function LoginPage() {
   return (
     // Contenedor principal de la página de inicio de sesión
     <div className="h-[calc(100vh-100px)] flex items-center justify-center">
-      <Card>
+      <Card> {/* Ajustamos darkMode según el estado */}
         {/* Mensajes de error de inicio de sesión */}
         {loginErrors.map((error, i) => (
           <Message message={error} key={i} />

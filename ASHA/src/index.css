@@ -1,10 +1,18 @@
-@tailwind base; /* Importa los estilos base de Tailwind CSS */
+/* styles.css */
 
-@tailwind components; /* Importa los estilos de los componentes de Tailwind CSS */
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 
-@tailwind utilities; /* Importa los estilos de utilidades de Tailwind CSS */
-
-body {
-    background: linear-gradient(to top, #2e8b3e, #9c9c9c); /* Establece un fondo degradado */
-    color: #d8d6d6; /* Establece el color de texto */
-}
+/* Estilos para el tema claro */
+.theme-light {
+    color: gray;
+    background-color: #fff; /* Fondo blanco */
+  }
+  
+  /* Estilos para el tema oscuro */
+  .theme-dark {
+    color: gray;
+    background-color: #28262B; /* Fondo color zinc-800 */
+  }
+  

@@ -1,3 +1,9 @@
-export function Card({ children }) {
-  return <div className="bg-zinc-800 max-w-md w-full p-10 rounded-t-3xl">{children}</div>;
+import React from 'react';
+
+export function Card({ children, darkMode }) {
+  return (
+    <div className="max-w-md w-full p-10 rounded-t-3xl" style={{ backgroundColor: darkMode ? '#28262B' : '#fff' }}>
+      {children}
+    </div>
+  );
 }
