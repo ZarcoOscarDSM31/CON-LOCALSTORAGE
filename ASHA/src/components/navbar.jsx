@@ -16,16 +16,12 @@ export function Navbar() {
       </h1>
       
       <ul className="flex gap-x-2">
-        <ThemeToggle />
+        {/* Integra el componente ThemeToggle aquí, pasando darkMode como prop */}
+        <ThemeToggle darkMode={false} /> {/* false para asegurarse de que inicialmente no esté en modo oscuro */}
         {isAuthenticated ? (
           // Mostrar el nombre de usuario y el botón de cierre de sesión si el usuario está autenticado
           <>
-            {user && (
-              <li className="bg-slate-50 bg-opacity-20 rounded-xl text-zinc-900 py-2.5 px-2">
-                ¡Hola {user.username}!
-              </li>
-            )}
-            <li className="rounded-xl py-2.5 px-2 bg-green-700 hover:bg-zinc-50 hover:text-zinc-950">
+            <li className="rounded-xl py-2.5 px-2 bg-green-100 text-zinc-900 hover:bg-green-500 hover:text-zinc-50">
               <button onClick={() => logout()}>Cerrar sesión</button>
             </li>
           </>
@@ -40,8 +36,6 @@ export function Navbar() {
             </li>
           </>
         )}
-        {/* Integra el componente ThemeToggle aquí */}
-        
       </ul>
     </nav>
   );

@@ -10,3 +10,5 @@ export const TOKEN_SECRET = process.env.TOKEN_SECRET || "secret";
 
 // Define la URL del frontend, utilizando la URL proporcionada por la variable de entorno FRONTEND_URL o una URL local de ejemplo
 export const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:5173";
+
+/* NO MODIFICAR */

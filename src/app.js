@@ -5,6 +5,8 @@ import cookieParser from "cookie-parser";  // Middleware para analizar cookies e
 import path from "path";  // Módulo de Node.js para manejar y transformar rutas de archivos
 
 import authRoutes from "./routes/auth.routes.js";  // Importa las rutas de autenticación desde el archivo auth.routes.js
+import taksRoutes from "./routes/tasks.routes.js";
+
 import { FRONTEND_URL } from "./config.js";  // Importa la URL del frontend desde el archivo de configuración
 
 const app = express();  // Crea una instancia de la aplicación Express
@@ -26,7 +28,10 @@ app.use(morgan("dev"));  // Configura el middleware de registro de solicitudes H
 app.use(cookieParser());  // Configura el middleware para analizar cookies en las solicitudes HTTP
 
 app.use("/api/auth", authRoutes);  // Monta las rutas de autenticación bajo el prefijo "/api/auth"
-
+/* app.use("/api", taksRoutes); */   
+/* RUTA IMPORTANTE DONDE AQUÍ SE MUESTRAN LAS RUTAS DE TAREAS (DONDE VA A ESTAR LA API-GRAFICA)*/
+/* SE DEBE IMPORTAR */
+ 
 if (process.env.NODE_ENV === "production") {  // Si el entorno es producción, sirve archivos estáticos desde la carpeta "client/dist"
     app.use(express.static("client/dist"));  // Sirve archivos estáticos desde la carpeta "client/dist"
     app.get("*", (req, res) => {  // Maneja todas las demás rutas, devolviendo el archivo "index.html"

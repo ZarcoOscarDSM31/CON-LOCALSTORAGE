@@ -1,12 +1,10 @@
 // Importaciones de módulos y componentes necesarios
 import { useEffect } from "react";
 import { useTasks } from "../context/tasksContext";
-import { TaskCard } from "../components/tasks/TaskCard";
-import { ImFileEmpty, ImDroplet } from "react-icons/im";
 import ApexChart from "../components/Chart";
-import ApexPieChart from "../components/table";
 import WeatherComponent from "../api/weatherComponent"; // Componente para mostrar el clima
 import SensorData from "../components/sensorData"; // Componente para mostrar datos de sensores
+import Table from "../components/table";
 
 export function TasksPage() {
   // Obtiene tareas del contexto de tareas
@@ -37,19 +35,8 @@ export function TasksPage() {
           <div className="mx-auto static">
             <ApexChart /> {/* Gráfico de ApexCharts */}
           </div>
-          <div className="mx-auto static">
-            <ApexPieChart /> {/* Gráfico de pastel de ApexCharts */}
-          </div>
         </div>
       )}
-
-      {/* Lista de tareas */}
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-2">
-        {/* Mapeo de tareas para mostrar tarjetas de tarea */}
-        {tasks.map((task) => (
-          <TaskCard task={task} key={task._id} />
-        ))}
-      </div>
     </div>
   );
 }

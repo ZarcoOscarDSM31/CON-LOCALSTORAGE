@@ -18,3 +18,5 @@ router.get("/verifyToken", verifyToken);  // Define una ruta GET para verificar 
 router.post("/logout", verifyToken, logout);  // Define una ruta POST para cerrar sesión y verifica el token de autenticación antes de ejecutar el controlador
 
 export default router;  // Exporta el enrutador
+
+/* NO MODIFICAR */

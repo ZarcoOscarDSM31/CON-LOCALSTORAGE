@@ -8,3 +8,5 @@ export const validateSchema = (schema) => (req, res, next) => {
             .json({ message: error.errors.map((error) => error.message) });  // Devuelve un mensaje de error con los detalles de los errores de validación
     }
 };
+
+/* NO MODIFICAR */

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class ApexChart extends Component {
+class Table extends Component {
   constructor(props) {
     super(props);
 
@@ -124,4 +124,4 @@ class ApexChart extends Component {
   }
 }
 
-export default ApexChart;
+export default Table;

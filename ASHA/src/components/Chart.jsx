@@ -6,91 +6,78 @@ class ApexChart extends Component {
   constructor(props) {
     super(props);
 
-    // Estado inicial del componente
     this.state = {
       series: [],
       options: {
         chart: {
-          height: 500, // Altura del gráfico
-          type: "line", // Tipo de gráfico
+          height: 500,
+          type: "line",
           zoom: {
-            enabled: true, // Habilitar zoom
+            enabled: true,
           },
         },
         dataLabels: {
-          enabled: true, // Habilitar etiquetas de datos
+          enabled: true,
         },
         stroke: {
-          curve: "straight", // Curva de las líneas
+          curve: "straight",
         },
         title: {
-          text: "Temperatura y Humedad", // Título del gráfico
-          align: "left", // Alineación del título
+          text: "Temperatura y Humedad",
+          align: "left",
         },
         grid: {
           row: {
-            colors: ["#f3f3f3", "transparent"], // Colores de las filas del gráfico
-            opacity: 0.5, // Opacidad de las filas
+            colors: ["#f3f3f3", "transparent"],
+            opacity: 0.5,
           },
         },
         xaxis: {
-          categories: [], // Categorías del eje X (fechas)
+          categories: [],
         },
       },
     };
   }
 
-  // Se ejecuta después de que el componente se monta en el DOM
   componentDidMount() {
-    // Obtener la ubicación del usuario y comenzar el intervalo de polling
     this.getCurrentLocation();
     this.startPolling();
   }
 
-  // Se ejecuta antes de que el componente se desmonte del DOM
   componentWillUnmount() {
-    // Detener el intervalo de polling
     this.stopPolling();
   }
 
-  // Iniciar el intervalo de polling para obtener datos periódicamente
   startPolling = () => {
-    this.pollingInterval = setInterval(this.getCurrentLocation, 900000); // Cada 15 minutos
+    this.pollingInterval = setInterval(this.getCurrentLocation, 900000);
   };
 
-  // Detener el intervalo de polling
   stopPolling = () => {
     clearInterval(this.pollingInterval);
   };
 
-  // Obtener la ubicación actual del usuario
   getCurrentLocation = () => {
     if (navigator.geolocation) {
-      // Si el navegador es compatible con la geolocalización, obtener la posición actual
       navigator.geolocation.getCurrentPosition(
-        this.fetchSensorData, // Llamar a fetchSensorData con la posición obtenida
-        this.handleLocationError // Llamar a handleLocationError si ocurre un error
+        this.fetchSensorData,
+        this.handleLocationError
       );
     } else {
       console.error("Geolocation is not supported by this browser.");
     }
   };
 
-  // Manejar errores de ubicación
   handleLocationError = (error) => {
     console.error("Error getting the user location:", error);
   };
 
-  // Obtener datos del sensor a partir de la posición geográfica
   fetchSensorData = async (position) => {
     try {
       const { latitude, longitude } = position.coords;
 
-      // Obtener datos del sensor desde la API
       const sensorResponse = await fetch("http://localhost:3000/historial");
       const sensorData = await sensorResponse.json();
 
-      // Procesar datos del sensor
       const categories = [];
       const temperatureSensorData = {};
       const humiditySensorData = {};
@@ -110,7 +97,6 @@ class ApexChart extends Component {
         }
       });
 
-      // Calcular promedios de temperatura y humedad
       const averageTemperatureData = Object.keys(temperatureSensorData).map(
         (date) => {
           const average =
@@ -129,7 +115,6 @@ class ApexChart extends Component {
         }
       );
 
-      // Actualizar el estado con los datos del sensor
       this.setState({
         series: [
           {
@@ -149,17 +134,14 @@ class ApexChart extends Component {
         },
       });
 
-      // Llamar a fetchWeatherData solo después de obtener los datos del sensor
       this.fetchWeatherData(latitude, longitude);
     } catch (error) {
       console.error("Error fetching sensor data:", error);
     }
   };
 
-  // Obtener datos del clima utilizando las coordenadas geográficas
   fetchWeatherData = async (latitude, longitude) => {
     try {
-      // Fetch data from OpenWeatherMap API using current location coordinates
       const apiKey = "fc2ac51668f9a6669c5870bdcc61e018";
       const weatherApiUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
       const weatherResponse = await axios.get(weatherApiUrl);
@@ -171,10 +153,9 @@ class ApexChart extends Component {
       weatherData.list.forEach((item) => {
         const timestamp = new Date(item.dt * 1000);
         categories.push(timestamp.toLocaleDateString());
-        temperatureWeatherData.push(Number(item.main.temp.toFixed(2))); // Redondear a dos decimales
+        temperatureWeatherData.push(Number(item.main.temp.toFixed(2)));
       });
 
-      // Verificar si los datos del clima ya están presentes en el estado antes de agregarlos nuevamente
       const existingWeatherSeriesIndex = this.state.series.findIndex(
         (series) => series.name === "Temperatura (API OpenWeatherMap) (°C)"
       );
@@ -193,7 +174,6 @@ class ApexChart extends Component {
           },
         }));
       } else {
-        // Actualizar los datos existentes si ya están presentes
         const updatedSeries = [...this.state.series];
         updatedSeries[existingWeatherSeriesIndex].data = temperatureWeatherData;
         this.setState({
@@ -209,7 +189,6 @@ class ApexChart extends Component {
     }
   };
 
-  // Manejar el cambio del tipo de gráfico
   handleChartTypeChange = (event) => {
     const chartType = event.target.value;
     this.setState((prevState) => ({
@@ -223,7 +202,6 @@ class ApexChart extends Component {
     }));
   };
 
-  // Renderizar el gráfico
   renderChart = () => {
     const { series, options } = this.state;
 
@@ -237,29 +215,47 @@ class ApexChart extends Component {
     );
   };
 
-  // Renderizar el selector del tipo de gráfico
   renderChartTypeSelect = () => {
     return (
       <div className="flex items-center justify-end mb-4">
-        <label className="mr-2 text-black font-semibold">Tipo de gráfica:</label>
-        <select
-          className="min-w-4 text-black"
-          value={this.state.options.chart.type}
-          onChange={this.handleChartTypeChange}
-        >
-          <option value="line">Línea</option>
-          <option value="bar">Barras</option>
-          <option value="area">Area</option>
-        </select>
+        <label className="mr-2 text-gray-500 font-semibold">Tipo de gráfica:</label>
+        <div className="relative">
+          <select
+            className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 rounded shadow leading-tight focus:outline-none focus:border-green-500 pr-10"
+            value={this.state.options.chart.type}
+            onChange={this.handleChartTypeChange}
+          >
+            <option value="line">Línea</option>
+            <option value="bar">Barras</option>
+            <option value="area">Área</option>
+          </select>
+          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-gray-700">
+            <svg
+              className="w-6 h-6"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M19 9l-7 7-7-7" />
+            </svg>
+          </div>
+        </div>
       </div>
     );
   };
 
   render() {
     return (
-      <div>
+      <div className="mx-auto max-w-screen-lg">
         {this.renderChartTypeSelect()}
-        <div id="chart">{this.renderChart()}</div>
+        <div id="chart" className="bg-white rounded-lg shadow-lg p-4">
+          {this.renderChart()}
+        </div>
       </div>
     );
   }

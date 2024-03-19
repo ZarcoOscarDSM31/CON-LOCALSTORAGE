@@ -9,3 +9,5 @@ export const connectDB = async () => {
         console.error(error);  // Si ocurre algún error durante la conexión, registra el error en la consola
     };
 };
+
+/* NO MODIFICAR */

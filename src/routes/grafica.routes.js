@@ -1,0 +1,1 @@
+/* RUTAS DE PETICIONES DE LA API QUE SE VA A UTILIZAR EN ESTE CASO LA GRAFICA, recuerda que estamos usando Node.js */

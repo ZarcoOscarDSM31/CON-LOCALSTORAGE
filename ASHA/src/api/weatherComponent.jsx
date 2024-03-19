@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react'; // Importar React y los hook
 
 function WeatherComponent() {
   const [weatherData, setWeatherData] = useState(null); // Definir el estado para almacenar los datos del clima
+  const [theme, setTheme] = useState("theme-light");
 
   useEffect(() => {
     // Efecto para cargar los datos del clima al montar el componente
@@ -48,9 +49,7 @@ function WeatherComponent() {
 
   return (
     // Renderizar el componente
-    <div className="container justify-content:flex">
-      <div className="top-0 left-0 p-4">
-        <div className="shadow-2xl w-1/2 p-4">
+        <div className={`shadow-lg w-3/4 p-2 rounded-3xl ${theme === "theme-light" ? "bg-white" : "bg-zinc-900"}`}>
           {weatherData ? ( // Mostrar los datos del clima si están disponibles
             <div className="text-center">
               <h2 className="text-black text-xl font-semibold mb-2">Clima en {weatherData.name}</h2> {/* Mostrar el nombre de la ubicación */}
@@ -61,8 +60,6 @@ function WeatherComponent() {
             <div>Loading...</div> // Mostrar un mensaje de carga si los datos del clima aún no están disponibles
           )}
         </div>
-      </div>
-    </div>
   );
 }
 

@@ -22,3 +22,5 @@ export const loginSchema = z.object({
     email: z.string().email(),  // Campo 'email' como una cadena y se valida que sea un correo electrónico válido
     password: z.string().min(6),  // Campo 'password' como una cadena y se valida que tenga al menos 6 caracteres
 });
+
+/* NO MODIFICAR */
